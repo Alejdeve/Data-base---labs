@@ -63,56 +63,7 @@ Descomponemos la tabla peliculas asi:
 	    actor_principal VARCHAR(255),
 	    actor_secundario VARCHAR(255),
 	    pais_origen VARCHAR(255)
-	);
-	
-	-- Ejercicio 2: Base de Datos de Coches
-	CREATE TABLE Coches (
-	    id_coche INT PRIMARY KEY,
-	    marca VARCHAR(255),
-	    modelo VARCHAR(255),
-	    año INT,
-	    propietario_nombre VARCHAR(255),
-	    propietario_direccion VARCHAR(255),
-	    propietario_telefono VARCHAR(255),
-	    taller_nombre VARCHAR(255),
-	    taller_direccion VARCHAR(255)
-	);
-	
-	-- Ejercicio 3: Base de Datos de Equipos de Fútbol
-	CREATE TABLE EquiposFutbol (
-	    id_equipo INT PRIMARY KEY,
-	    nombre_equipo VARCHAR(255),
-	    estadio VARCHAR(255),
-	    entrenador VARCHAR(255),
-	    ciudad VARCHAR(255),
-	    jugador1 VARCHAR(255),
-	    jugador2 VARCHAR(255),
-	    jugador3 VARCHAR(255)
-	);
-	
-	-- Ejercicio 4: Base de Datos de Canciones
-	CREATE TABLE Canciones (
-	    id_cancion INT PRIMARY KEY,
-	    titulo VARCHAR(255),
-	    artista VARCHAR(255),
-	    album VARCHAR(255),
-	    año_lanzamiento INT,
-	    genero VARCHAR(255),
-	    duracion TIME,
-	    compositor VARCHAR(255)
-	);
-	
-	-- Ejercicio 5: Base de Datos de Animales
-	CREATE TABLE Animales (
-	    id_animal INT PRIMARY KEY,
-	    nombre VARCHAR(255),
-	    especie VARCHAR(255),
-	    edad INT,
-	    propietario_nombre VARCHAR(255),
-	    propietario_direccion VARCHAR(255),
-	    veterinario_nombre VARCHAR(255),
-	    veterinario_direccion VARCHAR(255)
-	);
+	);	
 	
 	INSERT INTO Peliculas (id_pelicula, titulo, director, año_estreno, genero, actor_principal, actor_secundario, pais_origen) VALUES
 	(1, 'The Shawshank Redemption', 'Frank Darabont', 1994, 'Drama', 'Tim Robbins', 'Morgan Freeman', 'USA'),
@@ -126,58 +77,6 @@ Descomponemos la tabla peliculas asi:
 	(9, 'Avatar', 'James Cameron', 2009, 'Sci-Fi', 'Sam Worthington', 'Zoe Saldana', 'USA'),
 	(10, 'Gladiator', 'Ridley Scott', 2000, 'Action', 'Russell Crowe', 'Joaquin Phoenix', 'USA');
 	
-	-- Insertar datos en la tabla Coches
-	INSERT INTO Coches (id_coche, marca, modelo, año, propietario_nombre, propietario_direccion, propietario_telefono, taller_nombre, taller_direccion) VALUES
-	(1, 'Toyota', 'Corolla', 2018, 'Juan Pérez', 'Calle Principal 123', '123-456-7890', 'Taller Juan', 'Avenida Central 456'),
-	(2, 'Honda', 'Civic', 2017, 'María López', 'Avenida Libertad 456', '987-654-3210', 'Taller Martínez', 'Calle Independencia 789'),
-	(3, 'Ford', 'Mustang', 2020, 'Pedro García', 'Calle Sur 789', '456-789-0123', 'Taller Rodríguez', 'Avenida Norte 123'),
-	(4, 'Chevrolet', 'Camaro', 2019, 'Ana Martínez', 'Calle Este 567', '321-654-0987', 'Taller Sánchez', 'Avenida Oeste 567'),
-	(5, 'Nissan', 'Altima', 2016, 'Luisa Torres', 'Avenida Central 789', '789-012-3456', 'Taller Gómez', 'Calle Principal 234'),
-	(6, 'BMW', 'X5', 2021, 'Carlos Ruiz', 'Calle Norte 345', '210-987-6543', 'Taller López', 'Avenida Sur 890'),
-	(7, 'Mercedes-Benz', 'C-Class', 2019, 'Sofía Rodríguez', 'Avenida Oeste 890', '543-210-9876', 'Taller Martín', 'Calle Este 678'),
-	(8, 'Audi', 'A4', 2018, 'Javier Gómez', 'Calle Este 789', '012-345-6789', 'Taller Pérez', 'Avenida Norte 345'),
-	(9, 'Hyundai', 'Elantra', 2017, 'Laura Sánchez', 'Avenida Libertad 678', '876-543-2109', 'Taller Hernández', 'Calle Sur 456'),
-	(10, 'Kia', 'Optima', 2019, 'Diego Martín', 'Calle Principal 567', '234-567-8901', 'Taller Ruiz', 'Avenida Central 678');
-	
-	-- Insertar datos en la tabla EquiposFutbol
-	INSERT INTO EquiposFutbol (id_equipo, nombre_equipo, estadio, entrenador, ciudad, jugador1, jugador2, jugador3) VALUES
-	(1, 'Real Madrid', 'Santiago Bernabéu', 'Carlo Ancelotti', 'Madrid', 'Karim Benzema', 'Luka Modric', 'Sergio Ramos'),
-	(2, 'FC Barcelona', 'Camp Nou', 'Ronald Koeman', 'Barcelona', 'Lionel Messi', 'Gerard Piqué', 'Sergio Busquets'),
-	(3, 'Liverpool FC', 'Anfield', 'Jürgen Klopp', 'Liverpool', 'Mohamed Salah', 'Virgil van Dijk', 'Sadio Mané'),
-	(4, 'Manchester City', 'Etihad Stadium', 'Pep Guardiola', 'Manchester', 'Kevin De Bruyne', 'Raheem Sterling', 'Phil Foden'),
-	(5, 'Juventus FC', 'Allianz Stadium', 'Massimiliano Allegri', 'Turín', 'Cristiano Ronaldo', 'Paulo Dybala', 'Giorgio Chiellini'),
-	(6, 'Bayern Munich', 'Allianz Arena', 'Julian Nagelsmann', 'Múnich', 'Robert Lewandowski', 'Thomas Müller', 'Manuel Neuer'),
-	(7, 'Paris Saint-Germain', 'Parc des Princes', 'Mauricio Pochettino', 'París', 'Kylian Mbappé', 'Neymar Jr.', 'Marco Verratti'),
-	(8, 'Chelsea FC', 'Stamford Bridge', 'Thomas Tuchel', 'Londres', "N'Golo Kanté", 'Mason Mount', 'Christian Pulisic'),
-	(9, 'Atlético de Madrid', 'Wanda Metropolitano', 'Diego Simeone', 'Madrid', 'Luis Suárez', 'João Félix', 'Jan Oblak'),
-	(10, 'AC Milan', 'San Siro', 'Stefano Pioli', 'Milán', 'Zlatan Ibrahimović', 'Gianluigi Donnarumma', 'Franck Kessié');
-	
-	-- Insertar datos en la tabla Canciones
-	INSERT INTO Canciones (id_cancion, titulo, artista, album, año_lanzamiento, genero, duracion, compositor) VALUES
-	(1, 'Bohemian Rhapsody', 'Queen', 'A Night at the Opera', 1975, 'Rock', '00:05:55', 'Freddie Mercury'),
-	(2, 'Shape of You', 'Ed Sheeran', '÷', 2017, 'Pop', '00:03:53', 'Ed Sheeran'),
-	(3, 'Rolling in the Deep', 'Adele', '21', 2010, 'Pop', '00:03:48', 'Adele Adkins'),
-	(4, 'Despacito', 'Luis Fonsi', 'Vida', 2017, 'Pop', '00:03:48', 'Luis Fonsi, Daddy Yankee'),
-	(5, 'Billie Jean', 'Michael Jackson', 'Thriller', 1982, 'Pop', '00:04:54', 'Michael Jackson'),
-	(6, 'Hotel California', 'Eagles', 'Hotel California', 1976, 'Rock', '00:06:30', 'Don Felder, Glenn Frey, Don Henley'),
-	(7, 'Stairway to Heaven', 'Led Zeppelin', 'Led Zeppelin IV', 1971, 'Rock', '00:08:02', 'Jimmy Page, Robert Plant'),
-	(8, 'Thinking Out Loud', 'Ed Sheeran', '×', 2014, 'Pop', '00:04:41', 'Ed Sheeran, Amy Wadge'),
-	(9, 'Shape of You', 'Ed Sheeran', '÷ (Divide)', 2017, 'Pop', '00:03:54', 'Ed Sheeran'),
-	(10, 'Thriller', 'Michael Jackson', 'Thriller', 1982, 'Pop', '00:05:57', 'Rod Temperton');
-	
-	-- Insertar datos en la tabla Animales
-	INSERT INTO Animales (id_animal, nombre, especie, edad, propietario_nombre, propietario_direccion, veterinario_nombre, veterinario_direccion) VALUES
-	(1, 'Max', 'Perro', 5, 'Ana Martínez', 'Calle Principal 123', 'Dr. Pérez', 'Avenida Central 456'),
-	(2, 'Whiskers', 'Gato', 3, 'Luisa Rodríguez', 'Calle Libertad 456', 'Dr. Gómez', 'Avenida Sur 789'),
-	(3, 'Buddy', 'Perro', 7, 'Carlos Sánchez', 'Avenida Norte 789', 'Dra. López', 'Calle Este 123'),
-	(4, 'Oliver', 'Gato', 2, 'Laura Pérez', 'Calle Oeste 567', 'Dr. Martínez', 'Avenida Central 890'),
-	(5, 'Luna', 'Perro', 4, 'Diego Gómez', 'Calle Principal 234', 'Dra. Rodríguez', 'Avenida Libertad 678'),
-	(6, 'Simba', 'Gato', 1, 'María López', 'Avenida Sur 890', 'Dr. Hernández', 'Calle Norte 345'),
-	(7, 'Charlie', 'Perro', 6, 'Javier Ruiz', 'Calle Este 678', 'Dra. Sánchez', 'Avenida Oeste 456'),
-	(8, 'Milo', 'Gato', 5, 'Sofía Martín', 'Avenida Norte 345', 'Dr. Pérez', 'Calle Principal 567'),
-	(9, 'Bella', 'Perro', 3, 'Pablo Hernández', 'Calle Oeste 678', 'Dra. Gómez', 'Avenida Central 789'),
-	(10, 'Oreo', 'Gato', 2, 'Lucía Rodríguez', 'Calle Libertad 890', 'Dr. Martínez', 'Avenida Sur 456');
-
 	-- Normalizacion tabla peliculas
 
 	-- Creamos tabla directores
@@ -256,10 +155,159 @@ Descomponemos la tabla peliculas asi:
     FOREIGN KEY (id_actor_secundario) REFERENCES Actores(id_actor)
 	);
 
+
+<img src="./img/Peliculas ER.png" alt="ER Tabla peliculas" width="300">
+
+
+
 ## Ejercicio 2: Normalización de una Base de Datos de Coches
-### Descripción: La tabla Coches contiene información sobre coches, incluyendo detalles del propietario y el taller de servicio. Esta tabla no está normalizada.
+### Descripción: 
+### La tabla Coches contiene información sobre coches, incluyendo detalles del propietario y el taller de servicio. Esta tabla no está normalizada.
 
 ### Instrucciones:
 Identifica las posibles redundancias y dependencias.
 Descompón la tabla Coches en varias tablas siguiendo las reglas de normalización hasta alcanzar la 3FN.
+
+### Dependencias funcionales:
+
+- id_coche -> marca
+- id_coche -> modelo
+- id_coche -> año
+- id_coche -> propietario_nombre
+- id_coche -> propietario_direccion
+- id_coche -> propietario_telefono
+- id_coche -> taller_nombre
+- id_coche -> taller_direccion
+
+### Dependencias Transitivas
+
+Podemos observar que:
+
+- propietario_direccion y propietario_telefono dependen de propietario_nombre. Similarmente, taller_direccion depende de taller_nombre.
+
+## Normalización a 3FN
+Para normalizar la tabla Coches hasta la Tercera Forma Normal (3FN), seguiremos estos pasos:
+
+1. 1FN (Primera Forma Normal): Esta en valores atomicos desde la creacion de la tabla.
+2. 2FN (Segunda Forma Normal): Eliminar dependencias parciales.
+
+### Paso 1: Crear Tablas para separar la informacion:
+
+- Tabla Propietarios
+- Tabla Talleres
+- Tabla Coches (Con claves foraneas correspondientes)
+
+CREATE DATABASE IF NOT EXISTS lab1;
+	
+	use lab1;
+	
+	DROP DATABASE IF EXISTS lab1;
+	
+	CREATE DATABASE lab1;
+	
+	USE lab1;
+	
+	-- Ejercicio 2: Base de Datos de Coches
+	CREATE TABLE Coches (
+	    id_coche INT PRIMARY KEY,
+	    marca VARCHAR(255),
+	    modelo VARCHAR(255),
+	    año INT,
+	    propietario_nombre VARCHAR(255),
+	    propietario_direccion VARCHAR(255),
+	    propietario_telefono VARCHAR(255),
+	    taller_nombre VARCHAR(255),
+	    taller_direccion VARCHAR(255)
+	);
+	
+	-- Insertar datos en la tabla Coches
+	INSERT INTO Coches (id_coche, marca, modelo, año, propietario_nombre, propietario_direccion, propietario_telefono, taller_nombre, taller_direccion) VALUES
+	(1, 'Toyota', 'Corolla', 2018, 'Juan Pérez', 'Calle Principal 123', '123-456-7890', 'Taller Juan', 'Avenida Central 456'),
+	(2, 'Honda', 'Civic', 2017, 'María López', 'Avenida Libertad 456', '987-654-3210', 'Taller Martínez', 'Calle Independencia 789'),
+	(3, 'Ford', 'Mustang', 2020, 'Pedro García', 'Calle Sur 789', '456-789-0123', 'Taller Rodríguez', 'Avenida Norte 123'),
+	(4, 'Chevrolet', 'Camaro', 2019, 'Ana Martínez', 'Calle Este 567', '321-654-0987', 'Taller Sánchez', 'Avenida Oeste 567'),
+	(5, 'Nissan', 'Altima', 2016, 'Luisa Torres', 'Avenida Central 789', '789-012-3456', 'Taller Gómez', 'Calle Principal 234'),
+	(6, 'BMW', 'X5', 2021, 'Carlos Ruiz', 'Calle Norte 345', '210-987-6543', 'Taller López', 'Avenida Sur 890'),
+	(7, 'Mercedes-Benz', 'C-Class', 2019, 'Sofía Rodríguez', 'Avenida Oeste 890', '543-210-9876', 'Taller Martín', 'Calle Este 678'),
+	(8, 'Audi', 'A4', 2018, 'Javier Gómez', 'Calle Este 789', '012-345-6789', 'Taller Pérez', 'Avenida Norte 345'),
+	(9, 'Hyundai', 'Elantra', 2017, 'Laura Sánchez', 'Avenida Libertad 678', '876-543-2109', 'Taller Hernández', 'Calle Sur 456'),
+	(10, 'Kia', 'Optima', 2019, 'Diego Martín', 'Calle Principal 567', '234-567-8901', 'Taller Ruiz', 'Avenida Central 678');
+	
+	-- Normalizacion Coches
+
+	-- Separamos la informacion de propietarios
+	CREATE TABLE Propietarios (
+    id_propietario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    direccion VARCHAR(255),
+    telefono VARCHAR(255)
+	);
+	
+	-- Insertar datos en la tabla Propietarios
+	INSERT INTO Propietarios (nombre, direccion, telefono) VALUES
+	('Juan Pérez', 'Calle Principal 123', '123-456-7890'),
+	('María López', 'Avenida Libertad 456', '987-654-3210'),
+	('Pedro García', 'Calle Sur 789', '456-789-0123'),
+	('Ana Martínez', 'Calle Este 567', '321-654-0987'),
+	('Luisa Torres', 'Avenida Central 789', '789-012-3456'),
+	('Carlos Ruiz', 'Calle Norte 345', '210-987-6543'),
+	('Sofía Rodríguez', 'Avenida Oeste 890', '543-210-9876'),
+	('Javier Gómez', 'Calle Este 789', '012-345-6789'),
+	('Laura Sánchez', 'Avenida Libertad 678', '876-543-2109'),
+	('Diego Martín', 'Calle Principal 567', '234-567-8901');
+	
+	CREATE TABLE Talleres (
+    id_taller INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    direccion VARCHAR(255)
+	);
+
+	-- Insertar datos en la tabla Talleres
+	INSERT INTO Talleres (nombre, direccion) VALUES
+	('Taller Juan', 'Avenida Central 456'),
+	('Taller Martínez', 'Calle Independencia 789'),
+	('Taller Rodríguez', 'Avenida Norte 123'),
+	('Taller Sánchez', 'Avenida Oeste 567'),
+	('Taller Gómez', 'Calle Principal 234'),
+	('Taller López', 'Avenida Sur 890'),
+	('Taller Martín', 'Calle Este 678'),
+	('Taller Pérez', 'Avenida Norte 345'),
+	('Taller Hernández', 'Calle Sur 456'),
+	('Taller Ruiz', 'Avenida Central 678');
+
+	DROP TABLE IF EXISTS Coches;
+
+	CREATE TABLE Coches (
+    id_coche INT AUTO_INCREMENT PRIMARY KEY,
+    marca VARCHAR(255),
+    modelo VARCHAR(255),
+    año INT,
+    id_propietario INT,
+    id_taller INT,
+    FOREIGN KEY (id_propietario) REFERENCES Propietarios(id_propietario),
+    FOREIGN KEY (id_taller) REFERENCES Talleres(id_taller)
+	);	
+
+	-- Insertar datos en la tabla Coches
+	INSERT INTO Coches (marca, modelo, año, id_propietario, id_taller) VALUES
+	('Toyota', 'Corolla', 2018, 1, 1),
+	('Honda', 'Civic', 2017, 2, 2),
+	('Ford', 'Mustang', 2020, 3, 3),
+	('Chevrolet', 'Camaro', 2019, 4, 4),
+	('Nissan', 'Altima', 2016, 5, 5),
+	('BMW', 'X5', 2021, 6, 6),
+	('Mercedes-Benz', 'C-Class', 2019, 7, 7),
+	('Audi', 'A4', 2018, 8, 8),
+	('Hyundai', 'Elantra', 2017, 9, 9),
+	('Kia', 'Optima', 2019, 10, 10);
+
+3FN (Tercera Forma Normal): Eliminar dependencias transitivas.
+
+### Resultado
+
+La tabla Coches original ha sido descompuesta en tres tablas normalizadas (Coches, Propietarios, Talleres) siguiendo las reglas de normalización hasta alcanzar la 3FN. Esto elimina redundancias y mejora la integridad de los datos, haciendo que la base de datos sea más eficiente y fácil de mantener
+
+<img src="./img/ER_Coches.png" alt="ER Coches" width="300">
+
+
  
