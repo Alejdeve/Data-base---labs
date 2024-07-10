@@ -156,7 +156,7 @@ Descomponemos la tabla peliculas asi:
 	);
 
 
-<img src="./img/Peliculas ER.png" alt="ER Tabla peliculas" width="300">
+<img src="../img/Peliculas ER.png" alt="ER Tabla peliculas" width="300">
 
 
 
@@ -307,7 +307,7 @@ CREATE DATABASE IF NOT EXISTS lab1;
 
 La tabla Coches original ha sido descompuesta en tres tablas normalizadas (Coches, Propietarios, Talleres) siguiendo las reglas de normalización hasta alcanzar la 3FN. Esto elimina redundancias y mejora la integridad de los datos, haciendo que la base de datos sea más eficiente y fácil de mantener
 
-<img src="./img/ER_Coches.png" alt="ER Coches" width="300">
+<img src="../img/ER_Coches.png" alt="ER Coches" width="300">
 
 ## Ejercicio 3: Normalización de una Base de Datos de Equipos de Fútbol
 ### Descripción: La tabla EquiposFutbol contiene información sobre equipos de fútbol, incluyendo detalles del estadio, entrenador y jugadores. Esta tabla no está normalizada.
@@ -321,7 +321,7 @@ La tabla Coches original ha sido descompuesta en tres tablas normalizadas (Coche
 
 1. Identifica las posibles redundancias y dependencias.
 
-<img src="./img/EquiposFutbol.png" alt="Tablas equipos de futbol" width="800">
+<img src="../img/EquiposFutbol.png" alt="Tablas equipos de futbol" width="800">
 
 ### Dependencias funcionales:
 
@@ -347,15 +347,15 @@ Podemos descomponer la tabla en las siguientes sub-tablas:
 
 - Tabla de equipos
 
-<img src="./img/EquiposFutbol.png" alt="Tablas equipos" width="800">
+<img src="../img/EquiposFutbol.png" alt="Tablas equipos" width="800">
 
 - Tabla de jugadores
 
-<img src="./img/Tabla_jugadores.png" alt="Tablas equipos" width="300">
+<img src="../img/Tabla_jugadores.png" alt="Tablas equipos" width="300">
 
 - Tabla de entrenadores
 
-<img src="./img/Tabla_Entrenadores.png" alt="Tablas equipos" width="400">
+<img src="../img/Tabla_Entrenadores.png" alt="Tablas equipos" width="400">
 
 Para crear las tablas debemos introducir el siguiente codigo:
 
@@ -473,7 +473,7 @@ CREATE DATABASE IF NOT EXISTS lab1;
 	('Gianluigi Donnarumma', 10),
 	('Franck Kessié', 10);
 
-<img src="./img/ER_EQUIPO.png" alt="ER_Equipos" width="400">
+<img src="../img/ER_EQUIPO.png" alt="ER_Equipos" width="400">
 
 ### Resultado
 
@@ -554,4 +554,313 @@ La normalización de la tabla Canciones en varias tablas hasta alcanzar la 3FN e
 
 <img src="../img/ER canciones.png" alt="er canciones" width="400">
 
+## Codigo para creacion de tablas y adicion de datos:
 
+CREATE DATABASE IF NOT EXISTS lab1;
+	
+	use lab1;
+	
+	DROP DATABASE IF EXISTS lab1;
+	
+	CREATE DATABASE lab1;
+	
+	USE lab1;
+	
+	-- Ejercicio 4: Base de Datos de Canciones
+	CREATE TABLE Canciones (
+	    id_cancion INT PRIMARY KEY,
+	    titulo VARCHAR(255),
+	    artista VARCHAR(255),
+	    album VARCHAR(255),
+	    año_lanzamiento INT,
+	    genero VARCHAR(255),
+	    duracion TIME,
+	    compositor VARCHAR(255)
+	);
+	
+	-- Insertar datos en la tabla Canciones
+	INSERT INTO Canciones (id_cancion, titulo, artista, album, año_lanzamiento, genero, duracion, compositor) VALUES
+	(1, 'Bohemian Rhapsody', 'Queen', 'A Night at the Opera', 1975, 'Rock', '00:05:55', 'Freddie Mercury'),
+	(2, 'Shape of You', 'Ed Sheeran', '÷', 2017, 'Pop', '00:03:53', 'Ed Sheeran'),
+	(3, 'Rolling in the Deep', 'Adele', '21', 2010, 'Pop', '00:03:48', 'Adele Adkins'),
+	(4, 'Despacito', 'Luis Fonsi', 'Vida', 2017, 'Pop', '00:03:48', 'Luis Fonsi, Daddy Yankee'),
+	(5, 'Billie Jean', 'Michael Jackson', 'Thriller', 1982, 'Pop', '00:04:54', 'Michael Jackson'),
+	(6, 'Hotel California', 'Eagles', 'Hotel California', 1976, 'Rock', '00:06:30', 'Don Felder, Glenn Frey, Don Henley'),
+	(7, 'Stairway to Heaven', 'Led Zeppelin', 'Led Zeppelin IV', 1971, 'Rock', '00:08:02', 'Jimmy Page, Robert Plant'),
+	(8, 'Thinking Out Loud', 'Ed Sheeran', '×', 2014, 'Pop', '00:04:41', 'Ed Sheeran, Amy Wadge'),
+	(9, 'Shape of You', 'Ed Sheeran', '÷ (Divide)', 2017, 'Pop', '00:03:54', 'Ed Sheeran'),
+	(10, 'Thriller', 'Michael Jackson', 'Thriller', 1982, 'Pop', '00:05:57', 'Rod Temperton');
+
+	-- Normalizacion tabla de canciones
+	-- Creamos 4 tablas eliminando grupos de valores repetidos
+	-- Aseguramos que todos los atributos no clave dependan de la clave primaria.
+	
+	DROP TABLE IF EXISTS Canciones;
+
+	-- Tablas normalizadas
+
+	-- Tabla de Artistas
+	CREATE TABLE Artistas (
+    id_artista INT PRIMARY KEY AUTO_INCREMENT,
+    nombre_artista VARCHAR(255)
+	);
+
+	-- Tabla de Albums
+	CREATE TABLE Albums (
+    id_album INT PRIMARY KEY AUTO_INCREMENT,
+    nombre_album VARCHAR(255),
+    id_artista INT,
+    año_lanzamiento INT,
+    FOREIGN KEY (id_artista) REFERENCES Artistas(id_artista)
+	);
+
+	-- Tabla de Compositores
+	CREATE TABLE Compositores (
+    id_compositor INT PRIMARY KEY AUTO_INCREMENT,
+    nombre_compositor VARCHAR(255)
+	);
+
+	-- Tabla de Canciones
+	CREATE TABLE Canciones (
+    id_cancion INT PRIMARY KEY,
+    titulo VARCHAR(255),
+    id_artista INT,
+    id_album INT,
+    genero VARCHAR(255),
+    duracion TIME,
+    id_compositor INT,
+    FOREIGN KEY (id_artista) REFERENCES Artistas(id_artista),
+    FOREIGN KEY (id_album) REFERENCES Albums(id_album),
+    FOREIGN KEY (id_compositor) REFERENCES Compositores(id_compositor)
+	);
+
+	INSERT INTO Artistas (nombre_artista) VALUES
+	('Queen'),
+	('Ed Sheeran'),
+	('Adele'),
+	('Luis Fonsi'),
+	('Michael Jackson'),
+	('Eagles'),
+	('Led Zeppelin');
+
+	INSERT INTO Compositores (nombre_compositor) VALUES
+	('Freddie Mercury'),
+	('Ed Sheeran'),
+	('Adele Adkins'),
+	('Luis Fonsi'),
+	('Michael Jackson'),
+	('Don Felder'),
+	('Glenn Frey'),
+	('Don Henley'),
+	('Jimmy Page'),
+	('Robert Plant');
+
+	INSERT INTO Albums (nombre_album, id_artista, año_lanzamiento) VALUES
+	('A Night at the Opera', 1, 1975),
+	('÷', 2, 2017),
+	('21', 3, 2010),
+	('Vida', 4, 2017),
+	('Thriller', 5, 1982),
+	('Hotel California', 6, 1976),
+	('Led Zeppelin IV', 7, 1971);
+
+	INSERT INTO Canciones (id_cancion, titulo, id_artista, id_album, genero, duracion, id_compositor) VALUES
+	(1, 'Bohemian Rhapsody', 1, 1, 'Rock', '00:05:55', 1),
+	(2, 'Shape of You', 2, 2, 'Pop', '00:03:53', 2),
+	(3, 'Rolling in the Deep', 3, 3, 'Pop', '00:03:48', 3),
+	(4, 'Despacito', 4, 4, 'Pop', '00:03:48', 4),
+	(5, 'Billie Jean', 5, 5, 'Pop', '00:04:54', 5),
+	(6, 'Hotel California', 6, 6, 'Rock', '00:06:30', 6),
+	(7, 'Stairway to Heaven', 7, 7, 'Rock', '00:08:02', 7);
+
+## Ejercicio 5: Normalización de una Base de Datos de Animales
+
+## Descripción: 
+La tabla Animales contiene información sobre animales, incluyendo detalles del propietario y el veterinario. Esta tabla no está normalizada.
+
+## Instrucciones:
+
+1. Identifica las posibles redundancias y dependencias.
+2. Descompón la tabla Animales en varias tablas siguiendo las reglas de normalización hasta alcanzar la 3FN.
+
+## Solución:
+
+1. Identifica las posibles redundancias y dependencias.
+
+Tabla animales inicial
+
+<img src="../img/Tabla animales.png" alt="Tabla animales" width="800">
+
+Identificamos Redundancias y Dependencias
+
+## Dependencias funcionales:
+
+- id_animal determina nombre, especie, edad, propietario_nombre, propietario_direccion, veterinario_nombre, veterinario_direccion.
+- propietario_nombre puede determinar propietario_direccion.
+- veterinario_nombre puede determinar veterinario_direccion.
+
+## Posibles redundancias:
+
+- El nombre y la dirección del propietario pueden repetirse para varios animales del mismo propietario.
+- El nombre y la dirección del veterinario pueden repetirse para varios animales atendidos por el mismo veterinario.
+
+
+2. Descompón la tabla Animales en varias tablas siguiendo las reglas de normalización hasta alcanzar la 3FN.
+
+## Paso 1: Primera Forma Normal (1FN)
+
+- Asegurar que cada columna contiene valores atómicos.
+
+La tabla ya está en 1FN porque cada campo contiene un valor único.
+
+## Paso 2: Segunda Forma Normal (2FN)
+
+- Eliminar grupos de valores repetidos y crear nuevas tablas para ellos.
+Asegurar que todos los atributos no clave dependen de la clave primaria.
+
+## Podemos descomponer la tabla en las siguientes sub-tablas:
+
+- Tabla Animales
+
+- Tabla proietarios
+
+- Tabla Veterinarios
+
+## Paso 3: Tercera Forma Normal (3FN)
+
+Asegurar que no existen dependencias transitivas (los atributos no clave no deben depender de otros atributos no clave).
+debemos esructuras las tablas bajo estas condiciones para que queden normalizadas.
+
+-- Tabla de Animales
+CREATE TABLE Animales (
+    id_animal INT PRIMARY KEY,
+    nombre VARCHAR(255),
+    especie VARCHAR(255),
+    edad INT,
+    id_propietario INT,
+    id_veterinario INT,
+    FOREIGN KEY (id_propietario) REFERENCES Propietarios(id_propietario),
+    FOREIGN KEY (id_veterinario) REFERENCES Veterinarios(id_veterinario)
+);
+
+-- Tabla de Propietarios
+CREATE TABLE Propietarios (
+    id_propietario INT PRIMARY KEY AUTO_INCREMENT,
+    nombre_propietario VARCHAR(255),
+    direccion_propietario VARCHAR(255)
+);
+
+-- Tabla de Veterinarios
+CREATE TABLE Veterinarios (
+    id_veterinario INT PRIMARY KEY AUTO_INCREMENT,
+    nombre_veterinario VARCHAR(255),
+    direccion_veterinario VARCHAR(255)
+);
+
+## Resultado:
+
+<img src="../img/ER Animales.png" alt="ER Animales" width="300" >
+
+## Codigo completo de la normalizacion:
+
+CREATE DATABASE IF NOT EXISTS lab1;
+	
+	use lab1;
+	
+	DROP DATABASE IF EXISTS lab1;
+	
+	CREATE DATABASE lab1;
+	
+	USE lab1;
+	
+	-- Ejercicio 5: Base de Datos de Animales
+	CREATE TABLE Animales (
+	    id_animal INT PRIMARY KEY,
+	    nombre VARCHAR(255),
+	    especie VARCHAR(255),
+	    edad INT,
+	    propietario_nombre VARCHAR(255),
+	    propietario_direccion VARCHAR(255),
+	    veterinario_nombre VARCHAR(255),
+	    veterinario_direccion VARCHAR(255)
+	);
+	
+	-- Insertar datos en la tabla Animales
+	INSERT INTO Animales (id_animal, nombre, especie, edad, propietario_nombre, propietario_direccion, veterinario_nombre, veterinario_direccion) VALUES
+	(1, 'Max', 'Perro', 5, 'Ana Martínez', 'Calle Principal 123', 'Dr. Pérez', 'Avenida Central 456'),
+	(2, 'Whiskers', 'Gato', 3, 'Luisa Rodríguez', 'Calle Libertad 456', 'Dr. Gómez', 'Avenida Sur 789'),
+	(3, 'Buddy', 'Perro', 7, 'Carlos Sánchez', 'Avenida Norte 789', 'Dra. López', 'Calle Este 123'),
+	(4, 'Oliver', 'Gato', 2, 'Laura Pérez', 'Calle Oeste 567', 'Dr. Martínez', 'Avenida Central 890'),
+	(5, 'Luna', 'Perro', 4, 'Diego Gómez', 'Calle Principal 234', 'Dra. Rodríguez', 'Avenida Libertad 678'),
+	(6, 'Simba', 'Gato', 1, 'María López', 'Avenida Sur 890', 'Dr. Hernández', 'Calle Norte 345'),
+	(7, 'Charlie', 'Perro', 6, 'Javier Ruiz', 'Calle Este 678', 'Dra. Sánchez', 'Avenida Oeste 456'),
+	(8, 'Milo', 'Gato', 5, 'Sofía Martín', 'Avenida Norte 345', 'Dr. Pérez', 'Calle Principal 567'),
+	(9, 'Bella', 'Perro', 3, 'Pablo Hernández', 'Calle Oeste 678', 'Dra. Gómez', 'Avenida Central 789'),
+	(10, 'Oreo', 'Gato', 2, 'Lucía Rodríguez', 'Calle Libertad 890', 'Dr. Martínez', 'Avenida Sur 456');
+	
+	-- Normalizacion tabla de animales
+
+	DROP table IF EXISTS Animales;
+
+	
+	-- Tabla de Propietarios
+	CREATE TABLE Propietarios (
+	    id_propietario INT PRIMARY KEY AUTO_INCREMENT,
+	    nombre_propietario VARCHAR(255),
+	    direccion_propietario VARCHAR(255)
+	);
+
+	INSERT INTO Propietarios (nombre_propietario, direccion_propietario) VALUES
+	('Ana Martínez', 'Calle Principal 123'),
+	('Luisa Rodríguez', 'Calle Libertad 456'),
+	('Carlos Sánchez', 'Avenida Norte 789'),
+	('Laura Pérez', 'Calle Oeste 567'),
+	('Diego Gómez', 'Calle Principal 234'),
+	('María López', 'Avenida Sur 890'),
+	('Javier Ruiz', 'Calle Este 678'),
+	('Sofía Martín', 'Avenida Norte 345'),
+	('Pablo Hernández', 'Calle Oeste 678'),
+	('Lucía Rodríguez', 'Calle Libertad 890');
+
+	
+	-- Tabla de Veterinarios
+	CREATE TABLE Veterinarios (
+	    id_veterinario INT PRIMARY KEY AUTO_INCREMENT,
+	    nombre_veterinario VARCHAR(255),
+	    direccion_veterinario VARCHAR(255)
+	);
+
+	INSERT INTO Veterinarios (nombre_veterinario, direccion_veterinario) VALUES
+	('Dr. Pérez', 'Avenida Central 456'),
+	('Dr. Gómez', 'Avenida Sur 789'),
+	('Dra. López', 'Calle Este 123'),
+	('Dr. Martínez', 'Avenida Central 890'),
+	('Dra. Rodríguez', 'Avenida Libertad 678'),
+	('Dr. Hernández', 'Calle Norte 345'),
+	('Dra. Sánchez', 'Avenida Oeste 456');
+
+	-- Tabla de Animales
+	CREATE TABLE Animales (
+	    id_animal INT PRIMARY KEY,
+	    nombre VARCHAR(255),
+	    especie VARCHAR(255),
+	    edad INT,
+	    id_propietario INT,
+	    id_veterinario INT,
+	    FOREIGN KEY (id_propietario) REFERENCES Propietarios(id_propietario),
+	    FOREIGN KEY (id_veterinario) REFERENCES Veterinarios(id_veterinario)
+	);
+
+	INSERT INTO Animales (id_animal, nombre, especie, edad, id_propietario, id_veterinario) VALUES
+	(1, 'Max', 'Perro', 5, 1, 1),
+	(2, 'Whiskers', 'Gato', 3, 2, 2),
+	(3, 'Buddy', 'Perro', 7, 3, 3),
+	(4, 'Oliver', 'Gato', 2, 4, 4),
+	(5, 'Luna', 'Perro', 4, 5, 5),
+	(6, 'Simba', 'Gato', 1, 6, 6),
+	(7, 'Charlie', 'Perro', 6, 7, 7),
+	(8, 'Milo', 'Gato', 5, 8, 1),
+	(9, 'Bella', 'Perro', 3, 9, 2),
+	(10, 'Oreo', 'Gato', 2, 10, 4);
+
+    ## FIN
