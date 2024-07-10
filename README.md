@@ -309,5 +309,177 @@ La tabla Coches original ha sido descompuesta en tres tablas normalizadas (Coche
 
 <img src="./img/ER_Coches.png" alt="ER Coches" width="300">
 
+## Ejercicio 3: Normalización de una Base de Datos de Equipos de Fútbol
+### Descripción: La tabla EquiposFutbol contiene información sobre equipos de fútbol, incluyendo detalles del estadio, entrenador y jugadores. Esta tabla no está normalizada.
+
+### Instrucciones:
+
+1. Identifica las posibles redundancias y dependencias.
+2. Descompón la tabla EquiposFutbol en varias tablas siguiendo las reglas de normalización hasta alcanzar la 3FN.
+
+### Solución:
+
+1. Identifica las posibles redundancias y dependencias.
+
+<img src="./img/EquiposFutbol.png" alt="Tablas equipos de futbol" width="800">
+
+### Dependencias funcionales:
+
+id_equipo determina nombre_equipo, estadio, entrenador, ciudad, jugador1, jugador2, jugador3.
+Posibles redundancias:
+
+Si un jugador juega para varios equipos, su nombre y otros detalles se repetirán. (si juega para club y su pais)
+Detalles del estadio, entrenador y ciudad se repiten si se cambian con el tiempo o si los equipos tienen múltiples entrenadores.
+
+2. Descompón la tabla EquiposFutbol en varias tablas siguiendo las reglas de normalización hasta alcanzar la 3FN.
+
+### Paso 1: Primera Forma Normal (1FN)
+
+Asegurar que cada columna contiene valores atómicos.
+En este caso, nuestra tabla ya está en 1FN porque cada campo contiene un valor único.
+
+Paso 2: Segunda Forma Normal (2FN)
+
+- Eliminar grupos de valores repetidos y crear nuevas tablas para ellos.
+- Asegurar que todos los atributos no clave dependen de la clave primaria.
+
+Podemos descomponer la tabla en las siguientes sub-tablas:
+
+- Tabla de equipos
+
+<img src="./img/EquiposFutbol.png" alt="Tablas equipos" width="800">
+
+- Tabla de jugadores
+
+<img src="./img/Tabla_jugadores.png" alt="Tablas equipos" width="300">
+
+- Tabla de entrenadores
+
+<img src="./img/Tabla_Entrenadores.png" alt="Tablas equipos" width="400">
+
+Para crear las tablas debemos introducir el siguiente codigo:
+
+CREATE DATABASE IF NOT EXISTS lab1;
+	
+	use lab1;
+	
+	DROP DATABASE IF EXISTS lab1;
+	
+	CREATE DATABASE lab1;
+	
+	USE lab1;
+	
+	-- Ejercicio 3: Base de Datos de Equipos de Fútbol
+	CREATE TABLE EquiposFutbol (
+	    id_equipo INT PRIMARY KEY,
+	    nombre_equipo VARCHAR(255),
+	    estadio VARCHAR(255),
+	    entrenador VARCHAR(255),
+	    ciudad VARCHAR(255),
+	    jugador1 VARCHAR(255),
+	    jugador2 VARCHAR(255),
+	    jugador3 VARCHAR(255)
+	);
+	
+	-- Insertar datos en la tabla EquiposFutbol
+	INSERT INTO EquiposFutbol (id_equipo, nombre_equipo, estadio, entrenador, ciudad, jugador1, jugador2, jugador3) VALUES
+	(1, 'Real Madrid', 'Santiago Bernabéu', 'Carlo Ancelotti', 'Madrid', 'Karim Benzema', 'Luka Modric', 'Sergio Ramos'),
+	(2, 'FC Barcelona', 'Camp Nou', 'Ronald Koeman', 'Barcelona', 'Lionel Messi', 'Gerard Piqué', 'Sergio Busquets'),
+	(3, 'Liverpool FC', 'Anfield', 'Jürgen Klopp', 'Liverpool', 'Mohamed Salah', 'Virgil van Dijk', 'Sadio Mané'),
+	(4, 'Manchester City', 'Etihad Stadium', 'Pep Guardiola', 'Manchester', 'Kevin De Bruyne', 'Raheem Sterling', 'Phil Foden'),
+	(5, 'Juventus FC', 'Allianz Stadium', 'Massimiliano Allegri', 'Turín', 'Cristiano Ronaldo', 'Paulo Dybala', 'Giorgio Chiellini'),
+	(6, 'Bayern Munich', 'Allianz Arena', 'Julian Nagelsmann', 'Múnich', 'Robert Lewandowski', 'Thomas Müller', 'Manuel Neuer'),
+	(7, 'Paris Saint-Germain', 'Parc des Princes', 'Mauricio Pochettino', 'París', 'Kylian Mbappé', 'Neymar Jr.', 'Marco Verratti'),
+	(8, 'Chelsea FC', 'Stamford Bridge', 'Thomas Tuchel', 'Londres', "N'Golo Kanté", 'Mason Mount', 'Christian Pulisic'),
+	(9, 'Atlético de Madrid', 'Wanda Metropolitano', 'Diego Simeone', 'Madrid', 'Luis Suárez', 'João Félix', 'Jan Oblak'),
+	(10, 'AC Milan', 'San Siro', 'Stefano Pioli', 'Milán', 'Zlatan Ibrahimović', 'Gianluigi Donnarumma', 'Franck Kessié');
+	
+	-- Normalizacion equipos de futbol
+	CREATE TABLE Equipos (
+    id_equipo INT PRIMARY KEY,
+    nombre_equipo VARCHAR(255),
+    estadio VARCHAR(255),
+    ciudad VARCHAR(255)
+	);
+
+	INSERT INTO Equipos (id_equipo, nombre_equipo, estadio, ciudad) VALUES
+	(1, 'Real Madrid', 'Santiago Bernabéu', 'Madrid'),
+	(2, 'FC Barcelona', 'Camp Nou', 'Barcelona'),
+	(3, 'Liverpool FC', 'Anfield', 'Liverpool'),
+	(4, 'Manchester City', 'Etihad Stadium', 'Manchester'),
+	(5, 'Juventus FC', 'Allianz Stadium', 'Turín'),
+	(6, 'Bayern Munich', 'Allianz Arena', 'Múnich'),
+	(7, 'Paris Saint-Germain', 'Parc des Princes', 'París'),
+	(8, 'Chelsea FC', 'Stamford Bridge', 'Londres'),
+	(9, 'Atlético de Madrid', 'Wanda Metropolitano', 'Madrid'),
+	(10, 'AC Milan', 'San Siro', 'Milán');
+
+
+	CREATE TABLE Entrenadores (
+    id_entrenador INT PRIMARY KEY AUTO_INCREMENT,
+    nombre_entrenador VARCHAR(255),
+    id_equipo INT,
+    FOREIGN KEY (id_equipo) REFERENCES Equipos(id_equipo)
+	);
+
+	INSERT INTO Entrenadores (nombre_entrenador, id_equipo) VALUES
+	('Carlo Ancelotti', 1),
+	('Ronald Koeman', 2),
+	('Jürgen Klopp', 3),
+	('Pep Guardiola', 4),
+	('Massimiliano Allegri', 5),
+	('Julian Nagelsmann', 6),
+	('Mauricio Pochettino', 7),
+	('Thomas Tuchel', 8),
+	('Diego Simeone', 9),
+	('Stefano Pioli', 10);
+
+	create table jugadores (
+	id_jugador INT primary key auto_increment,
+	nombre_jugador VARCHAR(255),
+	id_equipo INT,
+	foreign key (id_equipo) references equipos(id_equipo)
+	);
+
+	insert into jugadores (nombre_jugador, id_equipo) values
+	('Karim Benzema', 1),
+	('Luka Modric', 1),
+	('Sergio Ramos', 1),
+	('Liones Messi', 2),
+	('Gerard Piqué', 2),
+	('Sergio Busquets', 2),
+	('Mohamed Salah', 3),
+	('Virgil van Dijk', 3),
+	('Sadio Mané', 3),
+	('Kevin De Bruyne', 4),
+	('Raheem Sterling', 4),
+	('Phil Foden', 4),
+	('Cristiano Ronaldo', 5),
+	('Paulo Dyvala', 5),
+	('Giorgio Chiellini', 5),
+	('Robert Lewandowski', 6),
+	('Thomas Müller', 6),
+	('Manuel Never', 6),
+	('Kylian Mbappé', 7),
+	('Neymar Jr', 7),
+	('Marco Verratti', 7),
+	("N'Golo Kanté", 8),
+	('Mason Mount', 8),
+	('Christian Pulisic', 8),
+	('Luis Suárez', 9),
+	('João Félix', 9),
+	('Jan Oblak', 9),
+	('Zlatan Ibrahimović', 10),
+	('Gianluigi Donnarumma', 10),
+	('Franck Kessié', 10);
+
+<img src="./img/ER_EQUIPO.png" alt="ER_Equipos" width="400">
+
+### Resultado
+
+La normalización ayuda a eliminar redundancias y dependencias innecesarias, haciendo la base de datos más eficiente y fácil de mantener. Con las tablas ahora en 3FN, se minimizan las redundancias y se asegura que cada dato se almacene en un único lugar, reduciendo el riesgo de inconsistencias.
+
+
+
 
  
