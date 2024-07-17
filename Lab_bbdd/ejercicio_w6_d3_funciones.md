@@ -219,7 +219,7 @@ nivel_habilidad
 
 Usando una herramienta de diagramación (como DBeaver, Draw.io o similar), crea el diagrama ER con las entidades, atributos y relaciones identificadas.
 
-<img src="../img/ER_SURF.png" alt="ER surf" width="300">
+<img src="./img/ER_SURF.png" alt="ER surf" width="300">
 
 ### 4. Describir las Cardinalidades
 
@@ -291,6 +291,98 @@ Cardinalidad: (1 socio a N alquileres), (1 neopreno a N alquileres).
 ## Implementación en SQL
 
 A continuación se muestra cómo implementar esto en SQL:
+
+-- Crear la base de datos
+DROP DATABASE IF EXISTS escuela_surf_db;
+CREATE DATABASE escuela_surf_db;
+USE escuela_surf_db;
+
+-- Crear la tabla Socios
+CREATE TABLE Socios (
+    id_socio INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    direccion VARCHAR(255) NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
+    email VARCHAR(255) NOT NULL
+);
+
+-- Crear la tabla Estudiantes
+CREATE TABLE Estudiantes (
+    id_estudiante INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    direccion VARCHAR(255) NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    nivel_habilidad VARCHAR(50) NOT NULL
+);
+
+-- Crear la tabla Tablas de Surf
+CREATE TABLE Tablas (
+    id_tabla INT AUTO_INCREMENT PRIMARY KEY,
+    modelo VARCHAR(255) NOT NULL,
+    longitud DECIMAL(5, 2) NOT NULL,
+    condicion VARCHAR(50) NOT NULL
+);
+
+-- Crear la tabla Neoprenos
+CREATE TABLE Neoprenos (
+    id_neopreno INT AUTO_INCREMENT PRIMARY KEY,
+    talla VARCHAR(10) NOT NULL,
+    grosor DECIMAL(3, 2) NOT NULL,
+    condicion VARCHAR(50) NOT NULL
+);
+
+-- Crear la tabla Alquileres de Tablas
+CREATE TABLE Alquileres_Tablas (
+    id_alquiler_tabla INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE NOT NULL,
+    id_tabla INT NOT NULL,
+    id_socio INT NOT NULL,
+    FOREIGN KEY (id_tabla) REFERENCES Tablas(id_tabla),
+    FOREIGN KEY (id_socio) REFERENCES Socios(id_socio)
+);
+
+-- Crear la tabla Alquileres de Neoprenos
+CREATE TABLE Alquileres_Neoprenos (
+    id_alquiler_neopreno INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE NOT NULL,
+    id_neopreno INT NOT NULL,
+    id_socio INT NOT NULL,
+    FOREIGN KEY (id_neopreno) REFERENCES Neoprenos(id_neopreno),
+    FOREIGN KEY (id_socio) REFERENCES Socios(id_socio)
+);
+
+-- Insertar datos en la tabla Socios
+INSERT INTO Socios (nombre, direccion, telefono, email) VALUES
+('John Doe', '123 Surf Street', '555-1234', 'john.doe@example.com'),
+('Jane Smith', '456 Wave Avenue', '555-5678', 'jane.smith@example.com'),
+('Mike Johnson', '789 Ocean Drive', '555-9012', 'mike.johnson@example.com');
+
+-- Insertar datos en la tabla Estudiantes
+INSERT INTO Estudiantes (nombre, direccion, telefono, email, nivel_habilidad) VALUES
+('John Doe', '123 Surf Street', '555-1234', 'john.doe@example.com', 'Intermedio'),
+('Alice Brown', '101 Beach Blvd', '555-3456', 'alice.brown@example.com', 'Principiante'),
+('Charlie Black', '202 Sea Lane', '555-7890', 'charlie.black@example.com', 'Avanzado');
+
+-- Insertar datos en la tabla Tablas de Surf
+INSERT INTO Tablas (modelo, longitud, condicion) VALUES
+('Shortboard', 5.9, 'Nueva'),
+('Longboard', 9.0, 'Usada'),
+('Fish', 6.3, 'Nueva');
+
+-- Insertar datos en la tabla Neoprenos
+INSERT INTO Neoprenos (talla, grosor, condicion) VALUES
+('M', 3.2, 'Nuevo'),
+('L', 4.3, 'Usado'),
+('S', 2.5, 'Nuevo');
+
+-- Insertar datos en la tabla Alquileres de Tablas
+INSERT INTO Alquileres_Tablas (fecha_inicio, fecha_fin, id_tabla, id_socio) VALUES
+('2024-07-01', '2024-07-07', 1, 1),
+('2024-07-08', '2024-07-14', 2, 2),
+('2024-07-15', '2024-07-21', 3, 3);
 
 ## Restaurante
 
