@@ -386,4 +386,230 @@ INSERT INTO Alquileres_Tablas (fecha_inicio, fecha_fin, id_tabla, id_socio) VALU
 
 ## Restaurante
 
+### Paso 1: Identificar Entidades y Atributos
+
+### Entidades y Atributos para un Restaurante:
+
+### Clientes
+id_cliente (INT, PK)
+nombre (VARCHAR)
+direccion (VARCHAR)
+telefono (VARCHAR)
+email (VARCHAR)
+
+### Mesas
+id_mesa (INT, PK)
+numero_mesa (INT)
+capacidad (INT)
+
+### Reservas
+id_reserva (INT, PK)
+id_cliente (INT, FK)
+id_mesa (INT, FK)
+fecha (DATE)
+hora (TIME)
+
+### Platos
+id_plato (INT, PK)
+nombre (VARCHAR)
+precio (DECIMAL)
+tipo (VARCHAR) // Ej: entrada, principal, postre
+
+### Pedidos
+id_pedido (INT, PK)
+id_reserva (INT, FK)
+fecha (DATE)
+hora (TIME)
+Detalle_Pedidos
+id_detalle (INT, PK)
+id_pedido (INT, FK)
+id_plato (INT, FK)
+cantidad (INT)
+
+### Proveedores
+id_proveedor (INT, PK)
+nombre (VARCHAR)
+direccion (VARCHAR)
+telefono (VARCHAR)
+email (VARCHAR)
+
+### Ingredientes
+id_ingrediente (INT, PK)
+nombre (VARCHAR)
+id_proveedor (INT, FK)
+
+### Plato_Ingrediente (Tabla intermedia para relación Many-to-Many)
+id_plato (INT, FK)
+id_ingrediente (INT, FK)
+cantidad (DECIMAL)
+
+## Paso 2: Identificar Relaciones
+
+- Un cliente puede hacer una o más reservas.
+- Una reserva está asociada a un cliente y a una mesa.
+- Una mesa puede tener muchas reservas (en diferentes momentos).
+- Un pedido está asociado a una reserva.
+- Un pedido puede tener uno o más platos (detalle del pedido).
+- Un plato puede estar en uno o más pedidos.
+- Un plato puede tener uno o más ingredientes.
+- Un ingrediente puede ser utilizado en uno o más platos.
+- Un proveedor puede suministrar uno o más ingredientes.
+
+## Paso 3: Dibujar el Diagrama ER
+
+Vamos a representar gráficamente estas entidades y relaciones en un Diagrama ER.
+
+## Paso 4: Describir las Cardinalidades
+
+Cliente - Reserva: Un cliente puede tener muchas reservas (1).
+
+Reserva - Mesa: Una reserva se asocia a una mesa (N:1).
+
+Reserva - Pedido: Una reserva puede tener muchos pedidos (1).
+
+Pedido - Detalle_Pedidos: Un pedido puede tener muchos detalles de pedido (1).
+
+Plato - Detalle_Pedidos: Un plato puede estar en muchos detalles de pedido (1).
+
+Plato - Plato_Ingrediente: Un plato puede tener muchos ingredientes (1).
+
+Ingrediente - Plato_Ingrediente: Un ingrediente puede estar en muchos platos (1).
+
+Proveedor - Ingrediente: Un proveedor puede suministrar muchos ingredientes (1).
+
+## Paso 5: Crear las Tablas en SQL
+
+Vamos a escribir el código SQL para crear las tablas:
+
+drop database if exists restaurante_db;
+create database restaurante_db;
+use restaurante_db;
+
+create table Clientes (
+	id_cliente INT auto_increment primary key,
+	nombre VARCHAR (255) not null,
+	direccion YEAR,
+	telefono VARCHAR(20) not null,
+	email VARCHAR(100) not NULL	
+);
+
+create table Mesas (
+	id_mesa INT auto_increment primary key,
+	numero_mesa INT not null,
+	capacidad INT not NULL
+);
+
+create table Reservas (
+	id_reserva INT auto_increment primary key,
+	id_cliente INT,
+	id_mesa INT,
+	fecha DATE not null,
+	hora TIME not null,
+	foreign key (id_cliente) references Clientes(id_cliente),
+	foreign key Mesas(id_mesa) references Mesas(id_mesa)
+);
+
+create table Platos (
+	id_plato INT auto_increment primary key,
+	nombre VARCHAR(255) not null,
+	precio DECIMAL(10, 2) not null,
+	tipo VARCHAR(50) not NULL
+);
+
+create table Pedidos (
+	id_pedido INT auto_increment primary key,
+	id_reserva INT,
+	fecha DATE not null,
+	hora TIME not null,
+	foreign key (id_reserva) references Reservas(id_reserva)
+);
+
+create table Detalle_pedidos (
+	id_detalle INT auto_increment primary key,
+	id_pedido INT,
+	id_plato INT,
+	cantidad INT not null,
+	foreign key (id_pedido) references Pedidos(id_pedido),
+	foreign key (id_plato) references Platos(id_plato)	
+);
+
+create table Proveedores (
+	id_proveedor INT auto_increment primary key,
+	nombre VARCHAR(255) not null,
+	direccion VARCHAR(255),
+	telefono VARCHAR(20),
+	email VARCHAR(255)
+);
+
+create table Ingredientes (
+	id_ingrediente INT auto_increment primary key,
+	nombre VARCHAR(255) not NULL,
+	id_proveedor INT,
+	foreign key (id_proveedor) references Proveedores(id_proveedor)	
+);
+
+create table Plato_ingrediente (
+	id_plato INT,
+	id_ingrediente INT,
+	cantidad DECIMAL(10, 2) not null,
+	primary key (id_plato, id_ingrediente),
+	foreign key (id_plato) references PLATOS(id_plato),
+	foreign key (id_ingrediente) references Ingredientes(id_ingrediente)
+);
+
+## Paso 6: Insertar Datos de Ejemplo
+
+Vamos a insertar algunos datos de ejemplo para llenar la base de datos:
+
+use restaurante_db;
+insert into Clientes (nombre, direccion, telefono, email) values
+('Fran Perea', 'Calle 1', '635998811', 'juanchoperez@xample.com'),
+('Guille Serrano', 'Santa Justa 123', '635774411', 'guille@example.com'),
+('Curro Serrano', 'Centro de Madrid 57', '635993322', 'curro@example.com'),
+('Jaime Molina', 'Calle del olvido 127', '635223355', 'jaimemolina@example.com'),
+('Carlos Merchan', 'Calle verdadera 123', '635221144', 'Carlos@example.com');
+
+insert into Mesas (numero_mesa, capacidad) values
+(1, 4),
+(2, 2),
+(3, 6),
+(4, 4),
+(5, 3);
+
+insert into Reservas (id_cliente, id_mesa, fecha, hora) values
+(1, 5, '2024-07-18', '19:00:00'),
+(2, 4, '2024-07-18', '19:30:00'),
+(3, 3, '2024-07-18', '19:30:00'),
+(4, 2, '2024-07-18', '19:30:00'),
+(5, 1, '2024-07-18', '20:00:00');
+
+insert into Platos (nombre, precio, tipo) values
+('ensalada', 5.99, 'entrada'),
+('Solomillo', 7.99, 'principal'),
+('Pasta', 7.50, 'Principal'),
+('Helado', 4.50, 'postre'),
+('cake de manzana', 6.00, 'postre');
+
+insert into Detalle_pedidos (id_pedido, id_plato, cantidad) values
+(1, 1, 2),
+(2, 2, 3),
+(3, 2, 4);
+
+INSERT INTO Proveedores (nombre, direccion, telefono, email) VALUES
+('Proveedor A', 'Calle Proveedor 1', '111-222-3333', 'proveedora@example.com'),
+('Proveedor B', 'Calle Proveedor 2', '444-555-6666', 'proveedorb@example.com');
+
+INSERT INTO Ingredientes (nombre, id_proveedor) VALUES
+('Tomate', 1),
+('Lechuga', 1),
+('Carne', 2),
+('Pasta', 2);
+
+INSERT INTO Plato_Ingrediente (id_plato, id_ingrediente, cantidad) VALUES
+(1, 1, 0.5),
+(1, 2, 0.3),
+(3, 3, 0.8),
+(4, 4, 0.6);
+
+
 ## Supermercado
