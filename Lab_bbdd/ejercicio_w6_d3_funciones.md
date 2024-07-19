@@ -459,6 +459,8 @@ cantidad (DECIMAL)
 
 Vamos a representar gráficamente estas entidades y relaciones en un Diagrama ER.
 
+<img src='./img/ER_Restaurante.png' alt='ER Restaurante' width='500'>
+
 ## Paso 4: Describir las Cardinalidades
 
 Cliente - Reserva: Un cliente puede tener muchas reservas (1).
@@ -613,3 +615,171 @@ INSERT INTO Plato_Ingrediente (id_plato, id_ingrediente, cantidad) VALUES
 
 
 ## Supermercado
+
+### Paso 1: Identificar Entidades y Atributos para supermercado:
+
+### Clientes
+id_cliente: Identificador único para cada cliente.
+nombre: Nombre del cliente.
+direccion: Dirección del cliente.
+telefono: Teléfono de contacto del cliente.
+email: Correo electrónico del cliente.
+
+### Productos
+id_producto: Identificador único para cada producto.
+nombre_producto: Nombre del producto.
+precio: Precio del producto.
+id_proveedor: Identificador del proveedor del producto (Clave foránea).
+
+### Proveedores
+id_proveedor: Identificador único para cada proveedor.
+nombre_proveedor: Nombre del proveedor.
+direccion: Dirección del proveedor.
+telefono: Teléfono de contacto del proveedor.
+email: Correo electrónico del proveedor.
+
+### Pedidos
+id_pedido: Identificador único para cada pedido.
+id_cliente: Identificador del cliente que realizó el pedido (Clave foránea).
+fecha: Fecha del pedido.
+hora: Hora del pedido.
+
+### Detalle_Pedidos
+id_detalle: Identificador único para cada detalle de pedido.
+id_pedido: Identificador del pedido (Clave foránea).
+id_producto: Identificador del producto (Clave foránea).
+cantidad: Cantidad del producto en el pedido.
+
+## Paso 2: Identificar Relaciones
+
+- Cliente - Pedido: Un cliente puede hacer uno o más pedidos, y un pedido está asociado a un cliente.
+- Proveedor - Producto: Un proveedor puede suministrar uno o más productos, y un producto es suministrado por un proveedor.
+- Pedido - Detalle_Pedidos: Un pedido puede tener uno o más detalles de pedidos, y un detalle de pedido está asociado a un pedido.
+- Producto - Detalle_Pedidos: Un producto puede aparecer en uno o más detalles de pedidos, y un detalle de pedido incluye un producto.
+
+## Paso 3: Dibujar el Diagrama ER
+
+Vamos a representar gráficamente estas entidades y relaciones en un Diagrama ER.
+
+<img src='./img/ER_supermercado.png' alt='ER supermercado'>
+
+## Paso 4: Describir las Cardinalidades
+
+- Cliente - Pedido: 1 a N (Un cliente puede hacer muchos pedidos, pero un pedido está asociado a un cliente).
+- Proveedor - Producto: 1 a N (Un proveedor puede suministrar muchos productos, pero un producto tiene un proveedor).
+- Pedido - Detalle_Pedidos: 1 a N (Un pedido puede tener muchos detalles de pedidos, pero un detalle de pedido pertenece a un pedido).
+- Producto - Detalle_Pedidos: 1 a N (Un producto puede estar en muchos detalles de pedidos, pero un detalle de pedido incluye un producto).
+
+## Paso 5: Crear las Tablas en SQL
+
+Vamos a escribir el código SQL para crear las tablas:
+
+drop database if exists supermercado_db;
+create database supermercado_db;
+use supermercado_db;
+
+create table Clientes (
+	id_cliente INT auto_increment primary key,
+	nombre VARCHAR(255) not null,
+	direccion VARCHAR(255),
+	telefono VARCHAR(20),
+	email VARCHAR(255)	
+);
+
+create table Proveedores (
+	id_proveedor INT auto_increment primary key,
+	nombre_proveedor VARCHAR(255) NOT NULL,
+	direccion VARCHAR(255),
+	telefono VARCHAR(20),
+	email VARCHAR(255)
+);
+
+create table Productos (
+	id_producto INT auto_increment primary key,
+	nombre_producto VARCHAR(255)  not null,
+	precio DECIMAL(10, 2) not null,
+	id_proveedor INT,
+	foreign key (id_proveedor) references Proveedores(id_proveedor)
+);
+
+create TABLE Pedidos (
+	id_pedido INT auto_increment primary key,
+	id_cliente INT,
+	fecha DATE not null,
+	hora TIME not null,
+	foreign key (id_cliente) references Clientes(id_cliente)
+);
+
+create TABLE Detalle_pedidos (
+	id_detalle INT auto_increment primary key,
+	id_pedido INT,
+	id_producto INT,
+	cantidad INT not null,
+	foreign key (id_pedido) references Pedidos(id_pedido),
+	foreign key (id_producto) references Productos(id_producto)
+);
+
+## Paso 6: Insertar Datos de Ejemplo dentro de cada tabla.
+
+use supermercado_db;
+
+INSERT INTO Clientes (nombre, direccion, telefono, email) VALUES
+('Juan Perez', 'Calle 1', '123456789', 'juan.perez@example.com'),
+('Maria Gomez', 'Calle 2', '987654321', 'maria.gomez@example.com'),
+('Pedro Martinez', 'Calle 3', '555666777', 'pedro.martinez@example.com'),
+('Laura Fernandez', 'Calle 4', '888999000', 'laura.fernandez@example.com'),
+('Ana Lopez', 'Calle 5', '111222333', 'ana.lopez@example.com'),
+('Carlos Sanchez', 'Calle 6', '444555666', 'carlos.sanchez@example.com'),
+('Lucia Ramirez', 'Calle 7', '777888999', 'lucia.ramirez@example.com'),
+('Miguel Torres', 'Calle 8', '000111222', 'miguel.torres@example.com'),
+('Sandra Jimenez', 'Calle 9', '333444555', 'sandra.jimenez@example.com'),
+('Javier Morales', 'Calle 10', '666777888', 'javier.morales@example.com');
+
+INSERT INTO Proveedores (nombre_proveedor, direccion, telefono, email) VALUES
+('Proveedor A', 'Calle Proveedor 1', '111-222-3333', 'proveedora@example.com'),
+('Proveedor B', 'Calle Proveedor 2', '444-555-6666', 'proveedorb@example.com'),
+('Proveedor C', 'Calle Proveedor 3', '777-888-9999', 'proveedorc@example.com'),
+('Proveedor D', 'Calle Proveedor 4', '000-111-2222', 'proveedord@example.com'),
+('Proveedor E', 'Calle Proveedor 5', '333-444-5555', 'proveedore@example.com'),
+('Proveedor F', 'Calle Proveedor 6', '666-777-8888', 'proveedorf@example.com'),
+('Proveedor G', 'Calle Proveedor 7', '999-000-1111', 'proveedorg@example.com'),
+('Proveedor H', 'Calle Proveedor 8', '222-333-4444', 'proveedorh@example.com'),
+('Proveedor I', 'Calle Proveedor 9', '555-666-7777', 'proveedori@example.com'),
+('Proveedor J', 'Calle Proveedor 10', '888-999-0000', 'proveedorj@example.com');
+
+INSERT INTO Productos (nombre_producto, precio, id_proveedor) VALUES
+('Manzana', 1.50, 1),
+('Leche', 0.99, 1),
+('Pan', 1.20, 2),
+('Queso', 2.50, 2),
+('Tomate', 1.00, 3),
+('Café', 4.50, 3),
+('Azúcar', 0.80, 4),
+('Sal', 0.70, 4),
+('Arroz', 1.80, 5),
+('Pasta', 1.50, 5);
+
+INSERT INTO Pedidos (id_cliente, fecha, hora) VALUES
+(1, '2024-07-15', '10:00:00'),
+(2, '2024-07-16', '12:30:00'),
+(3, '2024-07-17', '14:45:00'),
+(4, '2024-07-18', '09:15:00'),
+(5, '2024-07-19', '16:00:00'),
+(6, '2024-07-20', '11:30:00'),
+(7, '2024-07-21', '13:00:00'),
+(8, '2024-07-22', '15:45:00'),
+(9, '2024-07-23', '10:30:00'),
+(10, '2024-07-24', '12:00:00');
+
+INSERT INTO Detalle_Pedidos (id_pedido, id_producto, cantidad) VALUES
+(1, 1, 5),
+(1, 2, 2),
+(2, 3, 3),
+(2, 4, 1),
+(3, 5, 4),
+(3, 6, 2),
+(4, 7, 1),
+(4, 8, 5),
+(5, 9, 3),
+(5, 10, 2);
+
